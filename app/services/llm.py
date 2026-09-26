@@ -255,6 +255,26 @@ def _extract_qwen_generation_text(response) -> str:
 
 
 def _generate_response(prompt: str, app_config=None) -> str:
+    """
+    Call the configured `llm_provider`; if it returns an error and
+    `llm_fallback_provider` is set to a different provider, retry once with it.
+    Failures are reported as strings starting with "Error: ", so callers are unchanged.
+    """
+    runtime_app_config = app_config if app_config is not None else config.app
+    response = _generate_single_provider_response(prompt, app_config=runtime_app_config)
+
+    primary = str(runtime_app_config.get("llm_provider", DEFAULT_LLM_PROVIDER_ID)).lower()
+    fallback = str(runtime_app_config.get("llm_fallback_provider", "") or "").strip().lower()
+    if not response.startswith("Error: ") or not fallback or fallback == primary:
+        return response
+
+    logger.warning(f"llm provider {primary} failed ({response}); falling back to {fallback}")
+    fallback_config = dict(runtime_app_config)
+    fallback_config["llm_provider"] = fallback
+    return _generate_single_provider_response(prompt, app_config=fallback_config)
+
+
+def _generate_single_provider_response(prompt: str, app_config=None) -> str:
     try:
         # WebUI 在视频生成期间允许用户准备下一条文案。调用方可以传入提交瞬间
         # 的配置快照，确保模型请求重试期间不会因为后台任务结束并应用新配置，

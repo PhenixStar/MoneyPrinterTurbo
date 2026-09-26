@@ -2370,5 +2370,44 @@ class TestRetryWarningBoundary(unittest.TestCase):
         )
 
 
+class TestLlmFallbackProvider(unittest.TestCase):
+    def _run(self, app_config, responses):
+        calls = []
+
+        def fake_single(prompt, app_config=None):
+            calls.append(app_config["llm_provider"])
+            return responses[len(calls) - 1]
+
+        with patch.object(llm, "_generate_single_provider_response", side_effect=fake_single):
+            result = llm._generate_response("hi", app_config=app_config)
+        return result, calls
+
+    def test_primary_success_skips_fallback(self):
+        result, calls = self._run(
+            {"llm_provider": "minimax", "llm_fallback_provider": "openai"}, ["ok"]
+        )
+        self.assertEqual(result, "ok")
+        self.assertEqual(calls, ["minimax"])
+
+    def test_primary_error_uses_fallback_without_mutating_config(self):
+        app_config = {"llm_provider": "minimax", "llm_fallback_provider": "openai"}
+        result, calls = self._run(app_config, ["Error: 429", "fallback ok"])
+        self.assertEqual(result, "fallback ok")
+        self.assertEqual(calls, ["minimax", "openai"])
+        self.assertEqual(app_config["llm_provider"], "minimax")
+
+    def test_no_fallback_configured_returns_error(self):
+        result, calls = self._run({"llm_provider": "minimax"}, ["Error: 429"])
+        self.assertEqual(result, "Error: 429")
+        self.assertEqual(calls, ["minimax"])
+
+    def test_fallback_equal_to_primary_is_ignored(self):
+        result, calls = self._run(
+            {"llm_provider": "openai", "llm_fallback_provider": "OpenAI"}, ["Error: x"]
+        )
+        self.assertEqual(result, "Error: x")
+        self.assertEqual(calls, ["openai"])
+
+
 if __name__ == "__main__":
     unittest.main()
