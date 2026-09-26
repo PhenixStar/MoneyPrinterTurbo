@@ -11,9 +11,10 @@ set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 RUN_DIR="$ROOT/.run"
 PY="$ROOT/.venv/bin/python"
-# WebUI binds to localhost by default; MPT_HOST=0.0.0.0 opts in to LAN access
-# — the Settings dialog shows and can back up every API key, so only on a trusted network.
-HOST="${MPT_HOST:-127.0.0.1}"
+# WebUI binds to all interfaces (owner decision: network-wide access). The Settings
+# dialog shows and can back up every API key, so reach is limited by ufw to the
+# Residence 2 LAN + Tailscale. MPT_HOST=127.0.0.1 restricts it to this machine.
+HOST="${MPT_HOST:-0.0.0.0}"
 API_PORT=8080
 WEBUI_PORT=8501
 mkdir -p "$RUN_DIR"
