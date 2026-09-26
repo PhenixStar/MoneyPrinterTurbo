@@ -29,8 +29,9 @@
 | `anthropic_api_key` | `services/hermes/tokens.env` |
 | `[elevenlabs] api_key` | `services/elevenlabs/tokens.env` |
 | `pexels_api_keys` | `services/pexels/tokens.env` → `PEXELS_API_KEY` |
+| `coverr_api_keys` | `services/coverr/tokens.env` → `COVERR_API_KEY` (second video source; Pexels stays default) |
 | `pixabay_api_keys` | `services/pixabay/tokens.env` — not configured (optional) |
 
-Verified working 2026-09-27: MiniMax `MiniMax-M3` (primary), Z.ai `glm-5.3` (fallback), Ollama `gemma4:latest`, Groq, OpenRouter, Gemini, Pexels.
+Verified working 2026-09-27: MiniMax `MiniMax-M3` (primary), Z.ai `glm-5.3` (fallback), Ollama `gemma4:latest`, Groq, OpenRouter, Gemini, Pexels, Coverr.
 Validated snapshot of the full `config.toml`: `~/mapping/mapping-config/services/moneyprinter/config.toml` — refresh it after deliberate config changes.
 Local-footage mode: clips must live under `storage/local_videos/` (upstream path guard rejects anything else).

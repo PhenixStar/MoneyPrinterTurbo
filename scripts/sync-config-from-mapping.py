@@ -78,10 +78,12 @@ MANAGED = {
     ("app", "anthropic_api_key"): ("env", "hermes/tokens.env", "ANTHROPIC_API_KEY"),
     # ElevenLabs TTS / music
     ("elevenlabs", "api_key"): ("env", "elevenlabs/tokens.env", "ELEVENLABS_API_KEY"),
-    # Stock footage — not in mapping yet. Add services/pexels/tokens.env
-    # (PEXELS_API_KEY) or services/pixabay/tokens.env (PIXABAY_API_KEY) and re-run.
+    # Stock footage sources (pick one per video in the WebUI "Video Source").
+    # Pexels and Coverr are configured; Pixabay is optional (add
+    # services/pixabay/tokens.env PIXABAY_API_KEY and re-run).
     ("app", "pexels_api_keys"): ("env-list", "pexels/tokens.env", "PEXELS_API_KEY"),
     ("app", "pixabay_api_keys"): ("env-list", "pixabay/tokens.env", "PIXABAY_API_KEY"),
+    ("app", "coverr_api_keys"): ("env-list", "coverr/tokens.env", "COVERR_API_KEY"),
 }
 
 SECTION_RE = re.compile(r"^\s*\[([^\]]+)\]\s*$")
