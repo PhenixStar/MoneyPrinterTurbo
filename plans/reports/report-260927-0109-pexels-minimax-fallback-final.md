@@ -11,7 +11,9 @@ Topic-only video generation works end to end: "why the ocean is salty" → MiniM
   Forced-failure test (invalid MiniMax key) returned the GLM answer. 4 new unit tests, plus `test/conftest.py` so a local fallback setting never leaks live calls into unit tests. Full suite: 1318 passed, 0 failed.
 - Sync script: default provider `minimax` + fallback on first create; inserts keys missing from an older `config.toml`.
 - Validated `config.toml` snapshot saved to mapping `services/moneyprinter/config.toml` (mode 600).
-- API stays network-wide on `0.0.0.0:8080` (owner decision); WebUI stays `127.0.0.1:8501` with `hide_config = true`.
+- API stays network-wide on `0.0.0.0:8080` (owner decision); WebUI stays `127.0.0.1:8501`.
+- Correction: `hide_config` is obsolete upstream (Settings dialog resets it to false), so it was removed from the
+  sync script. Key protection for the WebUI is the localhost bind, not a config flag.
 
 ## Unresolved questions
 - None blocking. WebUI LAN exposure remains opt-in via `MPT_HOST=0.0.0.0`.

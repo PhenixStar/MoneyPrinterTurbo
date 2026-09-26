@@ -1,8 +1,9 @@
 # Process and port rules
 
 - Fixed ports: API `8080` (from `config.toml` `listen_port`), WebUI `8501`. Do not change or increment them.
-- Exposure: WebUI binds `127.0.0.1` by default. LAN access is opt-in via `MPT_HOST=0.0.0.0` and only
-  with `hide_config = true` in `config.toml` (otherwise the settings panel shows every API key).
+- Exposure: WebUI binds `127.0.0.1` by default. LAN access is opt-in via `MPT_HOST=0.0.0.0`; its Settings
+  dialog shows (and has a Key Backup tab exporting) every API key, so only on a trusted network.
+  `hide_config` is obsolete upstream (the dialog resets it to false) — do not rely on it.
   The API follows `listen_host` (upstream default `0.0.0.0`, no API key) — trusted network only.
 - Start/stop only through `scripts/moneyprinter-service.sh {start|stop|restart|status} [api|webui|all]`.
   It records PIDs in `.run/*.pid` and logs in `.run/*.log`.

@@ -36,13 +36,11 @@ DEFAULT_LLM_PROVIDER = "minimax"
 DEFAULT_LLM_FALLBACK_PROVIDER = "openai"
 DEFAULT_OLLAMA_MODEL = "gemma4:latest"
 
-# Written only when config.toml is first created, so choices made later in
-# the web UI (provider, UI exposure) are never reverted by a re-sync.
+# Written only when config.toml is first created, so a provider chosen later
+# in the web UI is never reverted by a re-sync.
 INITIAL = {
     ("app", "llm_provider"): ("lit", DEFAULT_LLM_PROVIDER),
     ("app", "llm_fallback_provider"): ("lit", DEFAULT_LLM_FALLBACK_PROVIDER),
-    # Hide the settings panel (which shows API keys) unless the owner opts in.
-    ("app", "hide_config"): ("raw", "true"),
 }
 
 # (section, key) -> value source, rewritten on every run.

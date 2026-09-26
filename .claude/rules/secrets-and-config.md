@@ -18,7 +18,6 @@
 |------------|----------------|
 | `llm_provider` | literal `minimax` (MiniMax-M3) — set **only when config.toml is first created**; change it in the WebUI afterwards |
 | `llm_fallback_provider` | literal `openai` (= Z.ai GLM-5.3) — first creation only; retried once when the primary returns an error |
-| `hide_config` | `true` — set only on first creation; keeps API keys out of the WebUI settings panel |
 | `ollama_*` | local Ollama `http://127.0.0.1:11434/v1`, model `gemma4:latest` (selectable, not default) |
 | `claude_code_cli_path` | local `claude` binary |
 | `openai_*` (Z.ai GLM coding plan, `glm-5.3`) | `services/ai-api/z-ai/tokens.env` (`ZAI_CODING_PLAN_API_KEY`, `ZAI_BASE_URL_OPENAI`) — the paas key in `services/z-ai` has no balance |

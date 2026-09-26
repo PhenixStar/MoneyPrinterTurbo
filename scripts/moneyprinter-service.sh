@@ -12,7 +12,7 @@ ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 RUN_DIR="$ROOT/.run"
 PY="$ROOT/.venv/bin/python"
 # WebUI binds to localhost by default; MPT_HOST=0.0.0.0 opts in to LAN access
-# (only with hide_config = true, since the settings panel shows API keys).
+# — the Settings dialog shows and can back up every API key, so only on a trusted network.
 HOST="${MPT_HOST:-127.0.0.1}"
 API_PORT=8080
 WEBUI_PORT=8501
